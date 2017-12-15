@@ -13,21 +13,32 @@ public class Create {
         Connection con = DriverManager.getConnection(conStr);
         System.out.println("connection done");
         
-        rs.first();
-        rs.updateString(2, "Apilado");
-        rs.updateRow();
-        rs.absolute(6);
-       // double newpr = rs.getDouble(3) * 1.1;
-        //rs.updateDouble("price", newpr);
-        rs.updateRow();
+        System.out.println("Enter custID in customers: ");
+        int cust = kbd.nextInt();
+        System.out.println("Enter last_name in customers: ");
+        String last = kbd.next();
+        System.out.println("Enter first_name in customers: ");
+        String first = kbd.next();
+        System.out.println("Enter contact_Num in customers: ");
+        String contact = kbd.next();
+        PreparedStatement psi;
+        String del = "DELETE FROM customers where custId = ?";
+        psi = con.prepareStatement(del);
+        psi.setInt(1, cust);
+        psi.executeUpdate();
+        
+        String stIns = "INSERT INTO customers(custID,last_name,first_name, contact_Num) VALUES (?,?,?,?)";
+        psi = con.prepareStatement(stIns);
+        psi.setInt(1, cust);
+        psi.setString(2, last);
+        psi.setString(3, first);
+        psi.setString(4, contact);
+        psi.executeUpdate();
+        
+        System.out.print("Insert Successful");
 
-        PreparedStatement psu = 
-        con.prepareStatement("UPDATE customers SET first_Name = Denver WHERE custId = 1");
-        psu.executeUpdate();
-        rs = stmt.executeQuery(stSel);
-        System.out.println("=========================================");
-        rs.beforeFirst();
-
+        con.close();
+    }
 }
 
 
